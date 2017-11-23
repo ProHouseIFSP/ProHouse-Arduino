@@ -21,6 +21,7 @@ int luminosidade = 0;
 boolean ligadoE = false;
 boolean ligadoL = false;
 int movimento;
+int tempo = 0;
 
 void setup(){
 
@@ -45,9 +46,22 @@ void loop(){
   if(movimento != LOW){
     if(luminosidade < 300){
       digitalWrite(pinRele02, LOW);
-      ligadoL = false;
+      ligadoL = true;
+      tempo = 0;
     }
   }
+  
+  if(ligadoL){
+    tempo++;
+    delay(1000);
+  }
+  
+  if(tempo > 300){
+    digitalWrite(pinRele02, HIGH);
+    ligadoL = false;
+    tempo = 0;
+  }
+  
   
   // Create a client connection
   EthernetClient client = server.available();
@@ -84,22 +98,24 @@ void loop(){
           
           /* 
             Verificando se a pagina de ligar a luz foi acessada
-            Rele 01
+            Rele 02
           */
           if(readString.indexOf("?ligarLuz") >0){
              if(luminosidade < 300){
                 digitalWrite(pinRele02, LOW);
-                ligadoL = false;
+                ligadoL = true;
+                tempo = 0;
               }
           }
           
           /* 
-            Verificando se a pagina de ligar a luz foi acessada
-            Rele 01
+            Verificando se a pagina de desligar a luz foi acessada
+            Rele 02
           */
           if(readString.indexOf("?desligarLuz") >0){
               digitalWrite(pinRele02, HIGH);
               ligadoL = false;
+              tempo = 0;
           }
           
           //clearing string for next read
@@ -124,7 +140,7 @@ void paginaPadrao(EthernetClient client){
   client.println();
   client.println("<html>");
   client.println("<head>");
-  client.println("<meta http-equiv='refresh' content='5;url=/'>");
+  //client.println("<meta http-equiv='refresh' content='5;url=/'>");
   client.println("<title>ProHouse</title>");
   client.println("</head>");
   client.println("<body>");

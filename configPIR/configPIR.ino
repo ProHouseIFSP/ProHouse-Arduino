@@ -1,7 +1,7 @@
 //Programa : Sensor de presenca com modulo PIR
 //Autor : FILIPEFLOP
  
-int pinopir = 7; //Pino ligado ao sensor PIR
+int pinopir = 4; //Pino ligado ao sensor PIR
 int acionamento; //Variavel para guardar valor do sensor
  
 void setup(){
