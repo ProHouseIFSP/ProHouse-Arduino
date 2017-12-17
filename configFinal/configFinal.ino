@@ -56,7 +56,7 @@ void loop(){
     delay(1000);
   }
   
-  if(tempo > 300){
+  if(tempo > 30){
     digitalWrite(pinRele02, HIGH);
     ligadoL = false;
     tempo = 0;
